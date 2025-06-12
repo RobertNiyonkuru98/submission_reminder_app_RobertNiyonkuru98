@@ -35,6 +35,27 @@ mkdir -p "$dir/config"
 [ ! -f "$dir/config/config.env" ] && cp config.env "$dir/config"
 touch $dir/startup.sh
 
+# Adding contents in startup.sh
+
+cat <<EOL >> "$dir/assets/submissions.txt"
+Robert, Git, not submitted
+Tony, Shell Navigation, submitted
+Oleg, Git, not submitted
+Scott, Shell Basics, not submitted
+Audrey, Shell Navigation, submitted
+EOL
+
+# Create startup.sh with logic to run the app
+
+cat << 'EOL' > "$dir/startup.sh"
+#!/bin/bash
+# Startup script for Submission Reminder App
+
+source ./config/config.env
+source ./modules/functions.sh
+bash ./app/reminder.sh
+EOL
+
 # Making them executable
 
 chmod +x "$dir/app/reminder.sh"

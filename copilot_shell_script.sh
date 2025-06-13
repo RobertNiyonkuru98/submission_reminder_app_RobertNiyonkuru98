@@ -30,3 +30,13 @@ echo "DAYS_REMAINING=$Days" >> "$dir/config/config.env"
 
 echo "✅ Configuration updated:"
 cat "$dir/config/config.env"
+
+# Ask if they want to start the app
+read -p "Would you like to run the reminder app now? (y/n): " choice
+
+if [[ "$choice" =~ ^[Yy]$ ]]; then
+    echo "Starting the app..."
+    bash "$dir/startup.sh"
+else
+    echo "Reminder app not started. You can run it later using: bash $dir/startup.sh"
+fi

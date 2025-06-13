@@ -110,8 +110,7 @@ cat << 'EOL' > "$dir/startup.sh"
 #!/bin/bash
 # Startup script for Submission Reminder App
 
-source ./config/config.env
-source ./modules/functions.sh
+cd "$(dirname "$0")"
 bash ./app/reminder.sh
 EOL
 

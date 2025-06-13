@@ -4,6 +4,7 @@
 
 read -p "Enter the same name as entered in the environment folder name: " name
 dir="submission_reminder_$name"
+submissions_file="$dir/assets/submissions.txt"
 
 # Checking if the directory exists
 if [ ! -d "$dir" ]; then
@@ -17,18 +18,29 @@ read -p "Enter the name for the assignment: " Assignment
 read -p "Enter the number of days remaining for submission: " Days
 
 # Input validation
+
+
 if [ -z "$Assignment" ] || ! [[ "$Days" =~ ^[0-9]+$ ]]; then
-    echo "Invalid input." 
-    echo "Assignment must not be empty and days must be a number."
+    echo "The Assignment name cannot be empty and the Days have to be numbers."
     exit 1
 fi
 
+if ! [[ "$Assignment" =~ ^[a-zA-Z\s]+$ ]]; then
+    echo "The Assignment name must contain only letters and spaces."
+    exit 1
+fi
+
+# Step 3: Check if the assignment exists in submissions.txt
+if ! grep -iq ", *$Assignment," "$submissions_file"; then
+    echo "Assignment '$Assignment' not found in submissions.txt"
+    exit 1
+fi
 # Update config.env
 echo "Updating config.env in $dir/config/"
 echo "ASSIGNMENT=\"$Assignment\"" > "$dir/config/config.env"
 echo "DAYS_REMAINING=$Days" >> "$dir/config/config.env"
 
-echo "✅ Configuration updated:"
+echo "Configuration updated:"
 cat "$dir/config/config.env"
 
 # Ask if they want to start the app

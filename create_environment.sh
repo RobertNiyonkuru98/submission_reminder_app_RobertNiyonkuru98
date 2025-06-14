@@ -4,9 +4,23 @@
 
 read -p "Enter your directory name: " name
 
+# Name not empty
+
 if [ -z "$name" ]; then
 	echo "You have to enter the name."
+	echo "---------------------------"
+	echo "Aborting..."
+	echo "--- --- --- --- --- --- ---"
 	exit 1
+fi
+
+# Name not a number
+
+if ! [[ "$name" =~ ^[a-zA-Z\s]+$ ]]; then
+    echo "The inputed name must contain."
+    echo "only letters and spaces😑."
+    echo "Aborting..."
+    exit 1
 fi
 
 # Creating the folder
@@ -14,11 +28,17 @@ fi
 dir="submission_reminder_$name"
 
 if [ -d "$dir" ]; then
-	echo "Directory already exists"
+	echo "Directory already exists."
+	echo "-------------------------"
+	echo "Aborting"
+	echo "-------------------------"
 	exit 1
 else
 	mkdir -p "$dir"
-	echo "The directory was created"
+	echo "The directory was created successfully."
+	echo "---------------------------------------"
+	echo "Proceeding to finalising the environment" 
+	echo "inside.................................."
 fi
 
 
@@ -36,7 +56,7 @@ mkdir -p "$dir/config"
 [ ! -f "$dir/startup.sh" ] && touch "$dir/startup.sh"
 
 # Adding content to the empty files in the sub-directories
-
+echo "Adding content👍👍👍👍👍👍👍👍👍👍👍👍👍"
 # Appending the content needed in the created empty files
 
 echo '
@@ -115,14 +135,17 @@ bash ./app/reminder.sh
 EOL
 
 # Making them executable
-
-chmod +x "$dir/app/reminder.sh"
-chmod +x "$dir/modules/functions.sh"
-chmod +x "$dir/assets/submissions.txt"
-chmod +x "$dir/config/config.env"
-chmod +x "$dir/startup.sh"
+find . -type f -name "*.sh" -exec chmod +x {} \;
+#chmod +x "$dir/app/reminder.sh"
+#chmod +x "$dir/modules/functions.sh"
+#chmod +x "$dir/assets/submissions.txt"
+#chmod +x "$dir/config/config.env"
+#chmod +x "$dir/startup.sh"
 
 # Tell the user that we're done
 
-echo "The setup is complete."
+echo "The setup is completed✅✅✅."
+echo "-----------------------------"
 echo "You can check: $dir"
+echo "Peace✌️✌️✌️✌️✌️✌️✌️"
+echo "-----------------------------"
